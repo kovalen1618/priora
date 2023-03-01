@@ -1,23 +1,18 @@
-import logo from './logo.svg';
+// Firebase
+import { projectFirestore } from './firebase/config';
+
+// Styles
 import './App.css';
 
 function App() {
+  // Fetch snapshot of tasks collection and log to console
+  projectFirestore.collection('tasks').get().then((snapshot) => {
+    console.log(snapshot);
+  })
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
     </div>
   );
 }
