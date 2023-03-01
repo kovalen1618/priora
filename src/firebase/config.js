@@ -1,8 +1,8 @@
 // Firebase
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 
 // Firebase Services
-import 'firebase/firestore';
+import 'firebase/compat/firestore';
 
 // Config
 const firebaseConfig = {
