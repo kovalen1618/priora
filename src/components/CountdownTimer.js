@@ -1,30 +1,30 @@
-// import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-// // Firebase
-// import { projectFirestore } from '../firebase/config';
+function CountdownTimer({ startingTime}) {
+    const [time, setTime] = useState(startingTime * 60);
 
-// function CountdownTimer() {
-//     const [time, setTime] = useState('')
+    // useEffect is used here to run the timer function when the component mounts
+    // then it removes the timer function once it is no longer needed
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTime((prevTime) => prevTime - 1)
+        }, 1000);
 
-//     // Fetch snapshot of tasks collection and log to console
-//     const storedTime = projectFirestore.collection('tasks').get().then((snapshot) => {
-//         snapshot.docs.data(time);
-//     })
+        return () => clearInterval(timer);
+    })
 
-//     setTime(parseInt(storedTime));
+    const hours = Math.floor(time / 3600);
+    let minutes = Math.floor((time % 3600) / 60);
+    let seconds = time % 60;
 
-//     const hours = Math.floor(time / 3600);
-//     let minutes = Math.floor((time % 3600) / 60);
-//     let seconds = time % 60;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
 
-//     minutes = minutes < 10 ? '0' + minutes : minutes;
-//     seconds = seconds < 10 ? '0' + seconds : seconds;
+    const countdown = time >= 0 ? `${hours}:${minutes}:${seconds}` : 'Expired';
 
-//     const countdown = time >= 0 ? `${hours}:${minutes}:${seconds}` : 'Expired';
+    return (
+        <div>{countdown}</div>
+    )
+}
 
-//     return (
-//         <div>{countdown}</div>
-//     )
-// }
-
-// export default CountdownTimer
+export default CountdownTimer
