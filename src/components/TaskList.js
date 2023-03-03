@@ -1,79 +1,7 @@
-// import React from 'react'
-// import CountdownTimer from './CountdownTimer'
-
-// function TaskList({ tasks }) {
-  
-
-//   return (
-//     <div>
-//         {tasks.map(task => (
-//             <div key={task.id}>
-//                 <h3>{task.title}</h3>
-//                 <button className="play-pause"></button>
-//                 <CountdownTimer 
-//                   startingTime={task.time}
-//                 />
-//             </div>
-//         ))}
-//     </div>
-//   )
-// }
-
-// export default TaskList
-
-
-// import React, { createRef, useRef, useState } from 'react'
-// import CountdownTimer from './CountdownTimer'
-
-// export default function TaskList({ tasks }) {
-//   const [isRunning, setIsRunning] = useState(false);
-//   const countdownRef = useRef();
-
-//   function handlePlayPause() {
-//     if (isRunning) {
-//       countdownRef.current.pause();
-//     } else {
-//       countdownRef.current.play();
-//     }
-
-//     setIsRunning(!isRunning);
-//   }
-
-//   function resetTimer() {
-//     if (isRunning) {
-//       countdownRef.current.pause();
-//       setIsRunning(false);
-//     }
-
-//     countdownRef.current.reset();
-//   }
-
-
-//   return (
-//     <div>
-//       {tasks.map(task => (
-//         <div className='task' key={task.id}>
-//             <h3 className="title">{task.title}</h3>
-//             <button className="play-pause" onClick={handlePlayPause}>
-//               {isRunning ? 'PAUSE' : 'PLAY'}
-//             </button>
-//             <button className="reset-button" onClick={resetTimer}>Reset</button>
-//             <CountdownTimer 
-//               ref={countdownRef}
-//               startingMinutes={task.time}
-//               onTimerComplete={() => setIsRunning(false)} 
-//               taskId={task.id}
-//             />
-//         </div>
-//       ))}
-//     </div>
-//   )
-// }
-
 import React, { createRef, useState } from 'react'
 import CountdownTimer from './CountdownTimer'
 
-export default function Task({ tasks }) {
+export default function TaskList({ tasks }) {
   // Keep track of each task and if their CountdownTimer is running
   const [taskStates, setTaskStates] = useState(
     // An array of task objects | countdownRef is used to access the CountdownTimer's pause and play methods
@@ -83,11 +11,21 @@ export default function Task({ tasks }) {
     }))
   );
 
+  // Keep track of the currently playing task's index
+  const [currentTaskIndex, setCurrentTaskIndex] = useState(null);
+
   // Handles play/pause button click event for every task
   function handlePlayPause(taskIndex) {
     // Copies task states and spreads into a new array since state variables are immutable
     const newTaskStates = [...taskStates];
     const taskState = newTaskStates[taskIndex];
+
+    // Pauses the current task if it's already playing
+    if (currentTaskIndex !== null && currentTaskIndex !== taskIndex) {
+      const currentTaskState = newTaskStates[currentTaskIndex];
+      currentTaskState.countdownRef.current.pause();
+      currentTaskState.isRunning = false;
+    }
 
     // Pauses or plays a task's CountdownTimer by using CountdownTimer's 
     // referenced pause and play methods on taskState's countdownRef value
@@ -103,6 +41,9 @@ export default function Task({ tasks }) {
 
     // Updates array objects with new values
     setTaskStates(newTaskStates);
+
+    // Update the currently playing task's index
+    setCurrentTaskIndex(taskState.isRunning ? taskIndex : null);
   }
 
   function resetTimer(taskIndex) {
