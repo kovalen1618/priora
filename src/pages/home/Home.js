@@ -21,22 +21,27 @@ function Home() {
         setIsPending(true);
 
         // Fetches a snapshot of the named collection
-        projectFirestore.collection('tasks').get().then((snapshot) => {
+        const unsub = projectFirestore.collection('tasks').onSnapshot((snapshot) => {
         if (snapshot.empty) {
             setError('No tasks to load');
             setIsPending(false);
         } else {
             let results = [];
             snapshot.docs.forEach(doc => {
-            results.push({ id: doc.id, ...doc.data() })
-        })
+                results.push({ id: doc.id, ...doc.data() })
+            })
+
             setData(results);
             setIsPending(false);
         }
-        }).catch(err => {
+        }, (err) => {
             setError(err.message);
             setIsPending(false);
         })
+
+        // Cleanup
+        return () => unsub();
+
     }, [])
 
     return (
