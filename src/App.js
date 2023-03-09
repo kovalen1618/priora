@@ -1,22 +1,26 @@
-// Firebase
-import { projectFirestore } from './firebase/config';
+// React
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // Components
-import CountdownTimer from './components/CountdownTimer';
+import Navbar from './components/Navbar';
+
+// Pages
+import Home from './pages/home/Home';
+import Create from './pages/create/Create';
 
 // Styles
 import './App.css';
-import Home from './pages/Home';
 
 function App() {
-  // // Fetch snapshot of tasks collection and log to console
-  // const time = projectFirestore.collection('tasks').get().then((snapshot) => {
-  //   snapshot.docs.data(time);
-  // })
-
   return (
     <div className="App">
-      <Home />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/create" element={<Create />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
