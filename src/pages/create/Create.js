@@ -1,6 +1,3 @@
-// TODO: Page to create tasks
-
-
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { projectFirestore } from '../../firebase/config';

@@ -92,6 +92,13 @@ export default function TaskList({ tasks }) {
     projectFirestore.collection('tasks').doc(id).delete();
   }
 
+  const handleEdit = (id) => {
+
+    projectFirestore.collection('tasks').doc(id).update({
+      title: 'Something else'
+    });
+  }
+
   return (
     <div>
       {/* Index is created through the .map method and represents the task being processed */}
@@ -124,6 +131,7 @@ export default function TaskList({ tasks }) {
               <img
                 className='edit'
                 src={pencilIcon}
+                onClick={() => handleEdit(task.id)}
                 alt='Edit Task Icon'
               />
               {/* Delete Task Button */}
