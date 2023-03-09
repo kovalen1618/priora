@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom";
 import { projectFirestore } from '../../firebase/config';
 
 function Create() {
     const [title, setTitle] = useState('');
     const [time, setTime] = useState('');
-
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,7 +12,6 @@ function Create() {
 
         try {
             await projectFirestore.collection('tasks').add(doc);
-            navigate('/');
         } catch(error) {
             console.log(error);
         }
