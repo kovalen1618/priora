@@ -17,45 +17,48 @@ export default function TaskList({ tasks }) {
   // Keep track of each task and if their CountdownTimer is running
   const [taskStates, setTaskStates] = useState(
     // An array of task objects | countdownRef is used to access the CountdownTimer's pause and play methods
-    tasks.map(() => ({
+    tasks.map((task) => ({
+      // ! First part of ChatGPT
+      id: task.id,
+
       isRunning: false,
       countdownRef: createRef(),
     }))
   );
 
   // Keep track of the currently playing task's index
-  const [currentTaskIndex, setCurrentTaskIndex] = useState(null);
+  const [currentTaskId, setCurrentTaskId] = useState(null);
 
   // Handles play/pause button click event for every task
-  const handlePlayPause = (taskIndex) => {
+  const handlePlayPause = (taskId) => {
     // Copies task states and spreads into a new array since state variables are immutable
     const newTaskStates = [...taskStates];
-    const taskState = newTaskStates[taskIndex];
+    const taskState = newTaskStates.find((task) => task.id === taskId);
 
     // Pauses the current task if it's already playing
-    if (currentTaskIndex !== null && currentTaskIndex !== taskIndex) {
-      const currentTaskState = newTaskStates[currentTaskIndex];
-      currentTaskState.countdownRef.current.pause();
-      currentTaskState.isRunning = false;
-    }
+    if (taskState.isRunning) {
+      taskState.countdownRef.current.pause();
+      taskState.isRunning = false;
+      setCurrentTaskId(null);
+    } else {
+      // Returns the task object that has an id property matching the current taskId (currentTaskId). 
+      // This currentTaskState object is then used later in the function to update the isRunning property of the task.
+      const currentTaskState = newTaskStates.find((task) => task.id === currentTaskId);
 
     // Pauses or plays a task's CountdownTimer by using CountdownTimer's 
     // referenced pause and play methods on taskState's countdownRef value
     // dependant on taskState's isRunning value
-    if (taskState.isRunning) {
-      taskState.countdownRef.current.pause();
-    } else {
-      taskState.countdownRef.current.play();
+    if (currentTaskState) {
+      currentTaskState.countdownRef.current.pause();
+      currentTaskState.isRunning = false;
     }
-
-    // Toggles between task running or NOT running
-    taskState.isRunning = !taskState.isRunning;
+      taskState.countdownRef.current.play();
+      taskState.isRunning = true;
+      setCurrentTaskId(taskId);
+    }
 
     // Updates array objects with new values
     setTaskStates(newTaskStates);
-
-    // Update the currently playing task's index
-    setCurrentTaskIndex(taskState.isRunning ? taskIndex : null);
   }
 
   const handleReset = (taskIndex) => {
@@ -77,6 +80,15 @@ export default function TaskList({ tasks }) {
   }
 
   const handleDelete = (id) => {
+    if (id === currentTaskId) {
+      const newTaskStates = [...taskStates];
+      const taskState = newTaskStates.find((task) => task.id === id);
+      taskState.countdownRef.current.pause();
+      taskState.isRunning = false;
+      setCurrentTaskId(null);
+      setTaskStates(newTaskStates);
+    }
+
     projectFirestore.collection('tasks').doc(id).delete();
   }
 
@@ -88,10 +100,7 @@ export default function TaskList({ tasks }) {
           <h3 className="title">{task.title}</h3>
           <div className="task">
             {/* Pause/Play */}
-            {/* // TODO: Whenever the topmost task is deleted, the CSS state continues onto the next task.
-                // TODO: And if the 2nd task is running while the topmost is not, the JS state goes from the topmost to the 2nd, making it impossible to pause
-                // TODO: Find a way to make sure that the next index does not take on the properties of the previous one. */}
-            <div className={`play ${taskStates[index].isRunning ? 'pause' : ''}`} onClick={() => handlePlayPause(index)}></div>
+            <div className={`play ${taskStates[index].isRunning ? 'pause' : ''}`} onClick={() => handlePlayPause(task.id)}></div>
             {/* Timer */}
             <CountdownTimer
               startingMinutes={task.time}
