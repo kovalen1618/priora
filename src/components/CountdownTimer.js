@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 
 export default forwardRef(function CountdownTimer({ startingMinutes, onTimerComplete }, ref ) {
-
     // Creating initial state with 60 seconds to work from
     const [time, setTime] = useState(startingMinutes * 60);
 

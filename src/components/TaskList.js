@@ -18,10 +18,8 @@ export default function TaskList({ tasks }) {
   const [taskStates, setTaskStates] = useState(
     // An array of task objects | countdownRef is used to access the CountdownTimer's pause and play methods
     tasks.map((task) => ({
-      // ! First part of ChatGPT
-      id: task.id,
-
       isRunning: false,
+      id: task.id,
       countdownRef: createRef(),
     }))
   );
@@ -93,11 +91,11 @@ export default function TaskList({ tasks }) {
   }
 
   const handleEdit = (id) => {
-
     projectFirestore.collection('tasks').doc(id).update({
       title: 'Something else'
     });
   }
+
 
   return (
     <div>
@@ -106,8 +104,8 @@ export default function TaskList({ tasks }) {
         <div className="task-container" key={task.id}>
           <h3 className="title">{task.title}</h3>
           <div className="task">
-            {/* Pause/Play */}
-            <div className={`play ${taskStates[index].isRunning ? 'pause' : ''}`} onClick={() => handlePlayPause(task.id)}></div>
+            {/* Pause/Play */} {/* Ensures that taskStates[index] exists before trying to access its isRunning property */}
+            <div className={`play ${taskStates && taskStates[index] && taskStates[index].isRunning ? 'pause' : ''}`} onClick={() => handlePlayPause(task.id)}></div>
             {/* Timer */}
             <CountdownTimer
               startingMinutes={task.time}
@@ -117,7 +115,8 @@ export default function TaskList({ tasks }) {
                 newTaskStates[index].isRunning = false;
                 setTaskStates(newTaskStates);
               }}
-              ref={taskStates[index].countdownRef}
+              /* Ensures that taskStates[index] exists before trying to access its countdownRef property */
+              ref={taskStates && taskStates[index] && taskStates[index].countdownRef}
             />
             <div className="options">
               {/* Reset Timer Button */}
