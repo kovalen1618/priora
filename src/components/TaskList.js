@@ -1,5 +1,5 @@
 // React
-import React, { createRef, useState } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import CountdownTimer from './CountdownTimer';
 
 // Firebase
@@ -27,14 +27,26 @@ export default function TaskList({ tasks }) {
   // Keep track of the currently playing task's index
   const [currentTaskId, setCurrentTaskId] = useState(null);
 
+  // Reflects the same data within the Firestore Database
+  useEffect(() => {
+    setTaskStates(
+      tasks.map((task) => {
+        const taskState = taskStates.find((state) => state.id === task.id);
+        return taskState ? taskState : { isRunning: false, id: task.id, countdownRef: createRef() }
+      })
+    )
+  }, [tasks]);
+
   // Handles play/pause button click event for every task
   const handlePlayPause = (taskId) => {
+    console.log(taskStates)
+
     // Copies task states and spreads into a new array since state variables are immutable
     const newTaskStates = [...taskStates];
     const taskState = newTaskStates.find((task) => task.id === taskId);
 
     // Pauses the current task if it's already playing
-    if (taskState.isRunning) {
+    if (taskStates && taskState.isRunning) {
       taskState.countdownRef.current.pause();
       taskState.isRunning = false;
       setCurrentTaskId(null);
@@ -43,13 +55,14 @@ export default function TaskList({ tasks }) {
       // This currentTaskState object is then used later in the function to update the isRunning property of the task.
       const currentTaskState = newTaskStates.find((task) => task.id === currentTaskId);
 
-    // Pauses or plays a task's CountdownTimer by using CountdownTimer's 
-    // referenced pause and play methods on taskState's countdownRef value
-    // dependant on taskState's isRunning value
-    if (currentTaskState) {
-      currentTaskState.countdownRef.current.pause();
-      currentTaskState.isRunning = false;
-    }
+      // Pauses or plays a task's CountdownTimer by using CountdownTimer's 
+      // referenced pause and play methods on taskState's countdownRef value
+      // dependant on taskState's isRunning value
+      if (currentTaskState) {
+        currentTaskState.countdownRef.current.pause();
+        currentTaskState.isRunning = false;
+      }
+
       taskState.countdownRef.current.play();
       taskState.isRunning = true;
       setCurrentTaskId(taskId);
@@ -86,6 +99,7 @@ export default function TaskList({ tasks }) {
       setCurrentTaskId(null);
       setTaskStates(newTaskStates);
     }
+    console.log(taskStates)
 
     projectFirestore.collection('tasks').doc(id).delete();
   }
