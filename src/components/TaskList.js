@@ -104,6 +104,8 @@ export default function TaskList({ tasks }) {
     projectFirestore.collection('tasks').doc(id).delete();
   }
 
+  // TODO: Look into having edits only being sent to the Firestore once a user closes out of the application so that not too many write requests are made
+  // TODO: Maybe have a way of it being temporarily stored in localstorage and then once the user is done it will update the Firestore
   const handleEdit = (id) => {
     projectFirestore.collection('tasks').doc(id).update({
       title: 'Something else'
