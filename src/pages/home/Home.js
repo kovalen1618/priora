@@ -1,15 +1,15 @@
 // React
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
 
 // Firebase
 import { projectFirestore } from '../../firebase/config';
 
 // Components
 import TaskList from '../../components/TaskList';
+import Modal from '../../components/Modal';
 
-// Assets
-import addTaskIcon from '../../assets/add-task-icon.svg';
+// Styes
+import './Home.css'
 
 function Home() {
     // Data returned from Firestore Database
@@ -49,9 +49,7 @@ function Home() {
             {error && <p className='error'>{error}</p>}
             {isPending && <p className='loading'>Loading...</p>}
             {data && <TaskList tasks={data} />}
-            <Link to='/create'>
-                <img src={addTaskIcon} alt="Add Task" />
-            </Link>
+            <Modal />
         </div>
     )
 }

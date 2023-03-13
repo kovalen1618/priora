@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom";
 import { projectFirestore } from '../../firebase/config';
 
-function Create() {
+function Create({ closeModal }) {
     const [title, setTitle] = useState('');
     const [time, setTime] = useState('');
-
-    const navigate = useNavigate();
+    
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,9 +14,11 @@ function Create() {
 
         try {
             await projectFirestore.collection('tasks').add(doc);
-            navigate('/');
+            closeModal();
         } catch(error) {
             console.log(error);
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -49,7 +50,7 @@ function Create() {
                     />
                 </label>
 
-                <button>Submit</button>
+                <button disabled={isSubmitting}>Submit</button>
 
             </form>
         </div>
