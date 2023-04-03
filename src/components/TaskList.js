@@ -39,8 +39,6 @@ export default function TaskList({ tasks }) {
 
   // Handles play/pause button click event for every task
   const handlePlayPause = (taskId) => {
-    console.log(taskStates)
-
     // Copies task states and spreads into a new array since state variables are immutable
     const newTaskStates = [...taskStates];
     const taskState = newTaskStates.find((task) => task.id === taskId);
@@ -99,7 +97,6 @@ export default function TaskList({ tasks }) {
       setCurrentTaskId(null);
       setTaskStates(newTaskStates);
     }
-    console.log(taskStates)
 
     projectFirestore.collection('tasks').doc(id).delete();
   }

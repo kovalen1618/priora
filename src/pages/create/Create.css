@@ -12,20 +12,38 @@
     margin: 1rem 0;
 }
 
-.time-inputs {
+.time-colon {
+    font-size: 50px;
+}
+
+#time-inputs {
     display: flex;
     flex-direction: row;
 }
 
-.clock input[type="text"] {
-    border: none;
-    background-color: transparent;
-    font-size: 16px;
-    text-align: center;
-    outline: none;
+.time-input {
+    margin-top: 6px;
+    caret-color: transparent;
 }
 
-.clock input[type="text"]::placeholder {
-    color: black;
-    opacity: 1;
+.time-input input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    text-align: center;
+    font-size: 60px;
+    width: 35px;
+    height: 55px;
+    cursor: pointer;
+    color: orangered;
+    border: 3px solid transparent;
+}
+
+.time-input input::placeholder {
+    color: black;  
+}
+
+.time-input-label {
+    margin-top: 10px;
+    font-size: 15px;
 }
