@@ -11,13 +11,6 @@ function Create({ closeModal }) {
     const [title, setTitle] = useState('');
 
     const [time, setTime] = useState(0);
-    // const [hoursOne, setHoursOne] = useState('');
-    // const [hoursTwo, setHoursTwo] = useState('');
-    // const [minutesOne, setMinutesOne] = useState(0);
-    // const [minutesTwo, setMinutesTwo] = useState(0);
-    // const [secondsOne, setSecondsOne] = useState(0);
-    // const [secondsTwo, setSecondsTwo] = useState(0);
-
     const [hours, setHours] = useState('');
     const [minutes, setMinutes] = useState('');
     const [seconds, setSeconds] = useState('');
@@ -72,7 +65,12 @@ function Create({ closeModal }) {
                                     type='text'
                                     placeholder='00'
                                     maxLength={2}
-                                    onChange={(e) => setHours(parseInt(e.target.value.replace(/\D/g, '')))}
+                                    onChange={(e) => {
+                                        if (e.target.value === '' || /^\d+$/.test(e.target.value)) {
+                                            const parsedValue = parseInt(e.target.value.replace(/\D/g, ''), 10);
+                                            setHours(isNaN(parsedValue) ? '' : parsedValue);
+                                        }
+                                    }}                                    
                                     value={hours}
                                     onFocus={handleInputFocus}
                                 />
@@ -86,7 +84,12 @@ function Create({ closeModal }) {
                                     type='text'
                                     placeholder='00'
                                     maxLength={2}
-                                    onChange={(e) => setMinutes(parseInt(e.target.value.replace(/\D/g, '')))}
+                                    onChange={(e) => {
+                                        if (e.target.value === '' || /^\d+$/.test(e.target.value)) {
+                                            const parsedValue = parseInt(e.target.value.replace(/\D/g, ''), 10);
+                                            setMinutes(isNaN(parsedValue) ? '' : parsedValue);
+                                        }
+                                    }}                                      
                                     value={minutes}
                                     onFocus={handleInputFocus}
                                 />
@@ -100,7 +103,12 @@ function Create({ closeModal }) {
                                     type='text'
                                     placeholder='00'
                                     maxLength={2}
-                                    onChange={(e) => setSeconds(parseInt(e.target.value.replace(/\D/g, '')))}
+                                    onChange={(e) => {
+                                        if (e.target.value === '' || /^\d+$/.test(e.target.value)) {
+                                            const parsedValue = parseInt(e.target.value.replace(/\D/g, ''), 10);
+                                            setSeconds(isNaN(parsedValue) ? '' : parsedValue);
+                                        }
+                                    }}                                      
                                     value={seconds}
                                     onFocus={handleInputFocus}
                                 />
@@ -114,17 +122,14 @@ function Create({ closeModal }) {
                 <button 
                     disabled={isSubmitting} 
                     className='submit-form-button' 
-                    onClick={() => { 
-                        setTime((seconds / 60) + minutes + (hours * 60))
-                        console.log({
-                            time,
-                            hours,
-                            minutes,
-                            seconds
-                        })
-                        console.log(
-                            parseInt(hours)
-                        )
+                    onClick={(e) => { 
+                        const totalTime = ((seconds / 60) + minutes + (hours * 60))
+                        if (totalTime === '' || totalTime <= 0) {
+                            alert('Please enter a valid time greater than 0');
+                            e.preventDefault(); // prevent form submission
+                            return;
+                        }
+                        setTime(totalTime);
                     }}
                 >Submit</button>
 
