@@ -11,18 +11,23 @@ function Create({ closeModal }) {
     const [title, setTitle] = useState('');
 
     const [time, setTime] = useState(0);
-    const [hoursOne, setHoursOne] = useState(0);
-    const [hoursTwo, setHoursTwo] = useState(0);
-    const [minutesOne, setMinutesOne] = useState(0);
-    const [minutesTwo, setMinutesTwo] = useState(0);
-    const [secondsOne, setSecondsOne] = useState(0);
-    const [secondsTwo, setSecondsTwo] = useState(0);
+    // const [hoursOne, setHoursOne] = useState('');
+    // const [hoursTwo, setHoursTwo] = useState('');
+    // const [minutesOne, setMinutesOne] = useState(0);
+    // const [minutesTwo, setMinutesTwo] = useState(0);
+    // const [secondsOne, setSecondsOne] = useState(0);
+    // const [secondsTwo, setSecondsTwo] = useState(0);
+
+    const [hours, setHours] = useState('');
+    const [minutes, setMinutes] = useState('');
+    const [seconds, setSeconds] = useState('');
 
     const handleInputFocus = (e) => {
         const inputs = document.querySelectorAll(".time-input input");
         inputs.forEach(input => input.style.borderBottom = '3px solid transparent');
 
         e.target.style.borderBottom = '3px solid black';
+        console.log(e.target.value)
     }
     
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -65,16 +70,10 @@ function Create({ closeModal }) {
                             <div className='time-input'>
                                 <input 
                                     type='text'
-                                    placeholder='0'
-                                    onChange={(e) => setHoursOne(e.target.value)}
-                                    value={hoursOne > 0 && hoursOne <= 9 ? hoursOne : ''}
-                                    onFocus={handleInputFocus}
-                                />
-                                <input 
-                                    type='text'
-                                    placeholder='0'
-                                    onChange={(e) => setHoursTwo(e.target.value)}
-                                    value={hoursTwo > 0 && hoursTwo <= 9 ? hoursTwo : ''}
+                                    placeholder='00'
+                                    maxLength={2}
+                                    onChange={(e) => setHours(parseInt(e.target.value.replace(/\D/g, '')))}
+                                    value={hours}
                                     onFocus={handleInputFocus}
                                 />
                             </div>
@@ -85,16 +84,10 @@ function Create({ closeModal }) {
                             <div className='time-input'>
                                 <input 
                                     type='text'
-                                    placeholder='0'
-                                    onChange={(e) => setMinutesOne(e.target.value)}
-                                    value={minutesOne > 0 && minutesOne <= 9 ? minutesOne : ''}
-                                    onFocus={handleInputFocus}
-                                />
-                                <input 
-                                    type='text'
-                                    placeholder='0'
-                                    onChange={(e) => setMinutesTwo(e.target.value)}
-                                    value={minutesTwo > 0 && minutesTwo <= 9 ? minutesTwo : ''}
+                                    placeholder='00'
+                                    maxLength={2}
+                                    onChange={(e) => setMinutes(parseInt(e.target.value.replace(/\D/g, '')))}
+                                    value={minutes}
                                     onFocus={handleInputFocus}
                                 />
                             </div>
@@ -105,16 +98,10 @@ function Create({ closeModal }) {
                             <div className='time-input'>
                                 <input 
                                     type='text'
-                                    placeholder='0'
-                                    onChange={(e) => setSecondsOne(e.target.value)}
-                                    value={secondsOne > 0 && secondsOne <= 9 ? secondsOne : ''}
-                                    onFocus={handleInputFocus}
-                                />
-                                <input 
-                                    type='text'
-                                    placeholder='0'
-                                    onChange={(e) => setSecondsTwo(e.target.value)}
-                                    value={secondsTwo > 0 && secondsTwo <= 9 ? secondsTwo : ''}
+                                    placeholder='00'
+                                    maxLength={2}
+                                    onChange={(e) => setSeconds(parseInt(e.target.value.replace(/\D/g, '')))}
+                                    value={seconds}
                                     onFocus={handleInputFocus}
                                 />
                             </div>
@@ -128,15 +115,16 @@ function Create({ closeModal }) {
                     disabled={isSubmitting} 
                     className='submit-form-button' 
                     onClick={() => { 
-                        setTime((parseInt(hoursOne + hoursTwo) * 60) + parseInt(minutesOne + minutesTwo) + (parseFloat(secondsOne + secondsTwo) / 60))
+                        setTime((seconds / 60) + minutes + (hours * 60))
                         console.log({
-                            hoursOne,
-                            hoursTwo,
-                            minutesOne,
-                            minutesTwo,
-                            secondsOne,
-                            secondsTwo
+                            time,
+                            hours,
+                            minutes,
+                            seconds
                         })
+                        console.log(
+                            parseInt(hours)
+                        )
                     }}
                 >Submit</button>
 
