@@ -16,12 +16,15 @@ function Create({ closeModal }) {
     const [seconds, setSeconds] = useState('');
 
     const handleInputFocus = (e) => {
-        const inputs = document.querySelectorAll(".time-input input");
-        inputs.forEach(input => input.style.borderBottom = '3px solid transparent');
+        const inputs = document.querySelectorAll(".input");
+        // Whenever a new input is focused, resets all other inputs to transparent
+        inputs.forEach(input => input.classList.remove('focused'));
+        // Sets focused input to opaque border-bottom
+        e.target.classList.add('focused')
 
-        e.target.style.borderBottom = '3px solid black';
-        
-        console.log(e.target.value)
+        if (e.target.id === 'name-input') {
+            e.target.placeholder = '';
+        }
     }
     
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,21 +48,29 @@ function Create({ closeModal }) {
         <div className='create'>
             <form onSubmit={handleSubmit} className='create-task-form'>
 
-                <label className='name'>
+                <label id='name'>
                     <input 
+                        className='input'
+                        id='name-input'
                         type='text'
                         placeholder='Task Name'
                         onChange={(e) => setName(e.target.value)}
                         value={name}
+                        onFocus={handleInputFocus}
+                        onBlur = {(e) => {
+                            e.target.placeholder = 'Task Name'
+                        }}
                         required
                     />
+                    <div></div>
                 </label>
 
-                <label className='clock'>
+                <label id='clock'>
                     <div id='time-inputs'>
                         <div className='time'>
                             <div className='time-input'>
                                 <input 
+                                    className='input'
                                     type='text'
                                     placeholder='00'
                                     onChange={(e) => {
@@ -68,9 +79,10 @@ function Create({ closeModal }) {
                                             setHours(!isNaN(parsedValue) && parsedValue < 100 ? parsedValue : `${e.target.value}`.substring(0,2));
                                         }
                                     }}                                    
-                                    value={hours === '' ? '' : (hours < 10 ? `0${hours}` : (hours < 100 ? hours : `${hours}`.substring(0,2)))}
+                                    value={hours === '' || hours === 0 ? '' : (hours < 10 ? `0${hours}` : (hours < 100 ? hours : `${hours}`.substring(0,2)))}
                                     onFocus={handleInputFocus}
                                 />
+                                <div></div>
                             </div>
                             <span className='time-input-label'>Hours</span>
                         </div>
@@ -78,6 +90,7 @@ function Create({ closeModal }) {
                         <div className='time'>
                             <div className='time-input'>
                                 <input 
+                                    className='input'
                                     type='text'
                                     placeholder='00'
                                     maxLength={3}
@@ -87,9 +100,10 @@ function Create({ closeModal }) {
                                             setMinutes(!isNaN(parsedValue) && parsedValue < 100 ? parsedValue : `${e.target.value}`.substring(0,2));
                                         }
                                     }}                                      
-                                    value={minutes === '' ? '' : (minutes < 10 ? `0${minutes}` : (minutes < 100 ? minutes : `${minutes}`.substring(0,2)))}
+                                    value={minutes === '' || minutes === 0 ? '' : (minutes < 10 ? `0${minutes}` : (minutes < 100 ? minutes : `${minutes}`.substring(0,2)))}
                                     onFocus={handleInputFocus}
                                 />
+                                <div></div>
                             </div>
                             <span className='time-input-label'>Minutes</span>
                         </div>
@@ -97,6 +111,7 @@ function Create({ closeModal }) {
                         <div className='time'>
                             <div className='time-input'>
                                 <input 
+                                    className='input'
                                     type='text'
                                     placeholder='00'
                                     maxLength={3}
@@ -106,9 +121,10 @@ function Create({ closeModal }) {
                                             setSeconds(!isNaN(parsedValue) && parsedValue < 100 ? parsedValue : `${e.target.value}`.substring(0,2));
                                         }
                                     }}                                      
-                                    value={seconds === '' ? '' : (seconds < 10 ? `0${seconds}` : (seconds < 100 ? seconds : `${seconds}`.substring(0,2)))}
+                                    value={seconds === '' || seconds === 0 ? '' : (seconds < 10 ? `0${seconds}` : (seconds < 100 ? seconds : `${seconds}`.substring(0,2)))}
                                     onFocus={handleInputFocus}
                                 />
+                                <div></div>
                             </div>
                             <span className='time-input-label'>Seconds</span>
                         </div>
