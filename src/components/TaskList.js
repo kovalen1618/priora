@@ -105,7 +105,7 @@ export default function TaskList({ tasks }) {
   // TODO: Maybe have a way of it being temporarily stored in localstorage and then once the user is done it will update the Firestore
   const handleEdit = (id) => {
     projectFirestore.collection('tasks').doc(id).update({
-      title: 'Something else'
+      name: 'Something else'
     });
   }
 
@@ -115,7 +115,7 @@ export default function TaskList({ tasks }) {
       {/* Index is created through the .map method and represents the task being processed */}
       {tasks.map((task, index) => (
         <div className="task-container" key={task.id}>
-          <h3 className="title">{task.title}</h3>
+          <h3 className="name">{task.name}</h3>
           <div className="task">
             {/* Pause/Play */} {/* Ensures that taskStates[index] exists before trying to access its isRunning property */}
             <div className={`play ${taskStates && taskStates[index] && taskStates[index].isRunning ? 'pause' : ''}`} onClick={() => handlePlayPause(task.id)}></div>

@@ -1,5 +1,5 @@
 // React
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 
 // Firebase
 import { projectFirestore } from '../../firebase/config';
@@ -8,7 +8,7 @@ import { projectFirestore } from '../../firebase/config';
 import './Create.css';
 
 function Create({ closeModal }) {
-    const [title, setTitle] = useState('');
+    const [name, setName] = useState('');
 
     const [time, setTime] = useState(0);
     const [hours, setHours] = useState('');
@@ -20,6 +20,7 @@ function Create({ closeModal }) {
         inputs.forEach(input => input.style.borderBottom = '3px solid transparent');
 
         e.target.style.borderBottom = '3px solid black';
+        
         console.log(e.target.value)
     }
     
@@ -27,7 +28,7 @@ function Create({ closeModal }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const doc = { title, time };
+        const doc = { name, time };
 
         try {
             await projectFirestore.collection('tasks').add(doc);
@@ -42,36 +43,32 @@ function Create({ closeModal }) {
 
     return (
         <div className='create'>
-            <h2 className='create-header'>Add a New Task</h2>
-
             <form onSubmit={handleSubmit} className='create-task-form'>
 
-                <label>
-                    <span id='title-label'>Title: </span>
+                <label className='name'>
                     <input 
                         type='text'
-                        onChange={(e) => setTitle(e.target.value)}
-                        value={title}
+                        placeholder='Task Name'
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
                         required
                     />
                 </label>
 
                 <label className='clock'>
-                    <div id='time-label'>Time</div>
                     <div id='time-inputs'>
                         <div className='time'>
                             <div className='time-input'>
                                 <input 
                                     type='text'
                                     placeholder='00'
-                                    maxLength={2}
                                     onChange={(e) => {
                                         if (e.target.value === '' || /^\d+$/.test(e.target.value)) {
                                             const parsedValue = parseInt(e.target.value.replace(/\D/g, ''), 10);
-                                            setHours(isNaN(parsedValue) ? '' : parsedValue);
+                                            setHours(!isNaN(parsedValue) && parsedValue < 100 ? parsedValue : `${e.target.value}`.substring(0,2));
                                         }
                                     }}                                    
-                                    value={hours}
+                                    value={hours === '' ? '' : (hours < 10 ? `0${hours}` : (hours < 100 ? hours : `${hours}`.substring(0,2)))}
                                     onFocus={handleInputFocus}
                                 />
                             </div>
@@ -83,14 +80,14 @@ function Create({ closeModal }) {
                                 <input 
                                     type='text'
                                     placeholder='00'
-                                    maxLength={2}
+                                    maxLength={3}
                                     onChange={(e) => {
                                         if (e.target.value === '' || /^\d+$/.test(e.target.value)) {
                                             const parsedValue = parseInt(e.target.value.replace(/\D/g, ''), 10);
-                                            setMinutes(isNaN(parsedValue) ? '' : parsedValue);
+                                            setMinutes(!isNaN(parsedValue) && parsedValue < 100 ? parsedValue : `${e.target.value}`.substring(0,2));
                                         }
                                     }}                                      
-                                    value={minutes}
+                                    value={minutes === '' ? '' : (minutes < 10 ? `0${minutes}` : (minutes < 100 ? minutes : `${minutes}`.substring(0,2)))}
                                     onFocus={handleInputFocus}
                                 />
                             </div>
@@ -102,14 +99,14 @@ function Create({ closeModal }) {
                                 <input 
                                     type='text'
                                     placeholder='00'
-                                    maxLength={2}
+                                    maxLength={3}
                                     onChange={(e) => {
                                         if (e.target.value === '' || /^\d+$/.test(e.target.value)) {
                                             const parsedValue = parseInt(e.target.value.replace(/\D/g, ''), 10);
-                                            setSeconds(isNaN(parsedValue) ? '' : parsedValue);
+                                            setSeconds(!isNaN(parsedValue) && parsedValue < 100 ? parsedValue : `${e.target.value}`.substring(0,2));
                                         }
                                     }}                                      
-                                    value={seconds}
+                                    value={seconds === '' ? '' : (seconds < 10 ? `0${seconds}` : (seconds < 100 ? seconds : `${seconds}`.substring(0,2)))}
                                     onFocus={handleInputFocus}
                                 />
                             </div>
@@ -131,7 +128,7 @@ function Create({ closeModal }) {
                         }
                         setTime(totalTime);
                     }}
-                >Submit</button>
+                >Add Task</button>
 
             </form>
         </div>

@@ -1,5 +1,5 @@
 .create {
-    min-height: 300px;
+    height: auto
 }
 
 .create-task-form {
@@ -12,6 +12,13 @@
     margin: 1rem 0;
 }
 
+.name input {
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: 30px;
+}
+
 .time-colon {
     font-size: 50px;
 }
@@ -22,7 +29,6 @@
 }
 
 .time-input {
-    margin-top: 6px;
     caret-color: transparent;
 }
 
@@ -40,10 +46,19 @@
 }
 
 .time-input input::placeholder {
-    color: black;  
+    color: black;
+    transition: 1s;  
 }
 
-.time-input-label {
-    margin-top: 10px;
-    font-size: 15px;
+.submit-form-button {
+    margin: 20px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 10px;
+    transition: 0.5s;
+}
+
+.submit-form-button:hover {
+    background-color: orangered ;
 }
