@@ -1,0 +1,49 @@
+.create {
+    min-height: 300px;
+}
+
+.create-task-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.create-task-form label {
+    margin: 1rem 0;
+}
+
+.time-colon {
+    font-size: 50px;
+}
+
+#time-inputs {
+    display: flex;
+    flex-direction: row;
+}
+
+.time-input {
+    margin-top: 6px;
+    caret-color: transparent;
+}
+
+.time-input input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    text-align: center;
+    font-size: 60px;
+    width: 70px;
+    height: 55px;
+    cursor: pointer;
+    color: orangered;
+    border: 3px solid transparent;
+}
+
+.time-input input::placeholder {
+    color: black;  
+}
+
+.time-input-label {
+    margin-top: 10px;
+    font-size: 15px;
+}

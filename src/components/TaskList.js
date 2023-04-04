@@ -39,8 +39,6 @@ export default function TaskList({ tasks }) {
 
   // Handles play/pause button click event for every task
   const handlePlayPause = (taskId) => {
-    console.log(taskStates)
-
     // Copies task states and spreads into a new array since state variables are immutable
     const newTaskStates = [...taskStates];
     const taskState = newTaskStates.find((task) => task.id === taskId);
@@ -99,11 +97,12 @@ export default function TaskList({ tasks }) {
       setCurrentTaskId(null);
       setTaskStates(newTaskStates);
     }
-    console.log(taskStates)
 
     projectFirestore.collection('tasks').doc(id).delete();
   }
 
+  // TODO: Look into having edits only being sent to the Firestore once a user closes out of the application so that not too many write requests are made
+  // TODO: Maybe have a way of it being temporarily stored in localstorage and then once the user is done it will update the Firestore
   const handleEdit = (id) => {
     projectFirestore.collection('tasks').doc(id).update({
       title: 'Something else'
