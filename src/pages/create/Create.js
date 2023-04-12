@@ -19,10 +19,12 @@ function Create({ closeModal }) {
         const inputs = document.querySelectorAll(".input");
         // Whenever a new input is focused, resets all other inputs to transparent
         inputs.forEach(input => input.classList.remove('focused'));
-        // Sets focused input to opaque border-bottom
-        e.target.classList.add('focused')
-
-        if (e.target.id === 'name-input') {
+        // Sets focused input to opaque border-bottom if event exists 
+        if (e) {
+            e.target.classList.add('focused')
+        }
+    
+        if (e && e.target.id === 'name-input') {
             e.target.placeholder = '';
         }
     }
@@ -58,7 +60,8 @@ function Create({ closeModal }) {
                         value={name}
                         onFocus={handleInputFocus}
                         onBlur = {(e) => {
-                            e.target.placeholder = 'Task Name'
+                            e.target.placeholder = 'Task Name';
+                            handleInputFocus();
                         }}
                         required
                     />
@@ -81,6 +84,9 @@ function Create({ closeModal }) {
                                     }}                                    
                                     value={hours === '' || hours === 0 ? '' : (hours < 10 ? `0${hours}` : (hours < 100 ? hours : `${hours}`.substring(0,2)))}
                                     onFocus={handleInputFocus}
+                                    onBlur = {() => {
+                                        handleInputFocus();
+                                    }}
                                 />
                                 <div></div>
                             </div>
@@ -102,6 +108,9 @@ function Create({ closeModal }) {
                                     }}                                      
                                     value={minutes === '' || minutes === 0 ? '' : (minutes < 10 ? `0${minutes}` : (minutes < 100 ? minutes : `${minutes}`.substring(0,2)))}
                                     onFocus={handleInputFocus}
+                                    onBlur = {() => {
+                                        handleInputFocus();
+                                    }}
                                 />
                                 <div></div>
                             </div>
@@ -123,6 +132,9 @@ function Create({ closeModal }) {
                                     }}                                      
                                     value={seconds === '' || seconds === 0 ? '' : (seconds < 10 ? `0${seconds}` : (seconds < 100 ? seconds : `${seconds}`.substring(0,2)))}
                                     onFocus={handleInputFocus}
+                                    onBlur = {() => {
+                                        handleInputFocus();
+                                    }}
                                 />
                                 <div></div>
                             </div>
