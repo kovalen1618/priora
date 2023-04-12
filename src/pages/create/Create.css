@@ -1,28 +1,57 @@
 .create {
-    min-height: 300px;
+    height: auto;
 }
 
 .create-task-form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    border: 3px solid black;
+    border-radius: 10px;
 }
 
 .create-task-form label {
     margin: 1rem 0;
 }
 
+#name input {
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 600;
+    color: #DA6A00;
+    padding: 15px 0 5px 0;
+    caret-color: black;
+}
+
+#name input::placeholder {
+    color: #C8D2D1;
+}
+
+input + div {
+    border-bottom: 3px solid transparent;
+    transform: scaleX(0);
+    transition: 0.5s;
+}
+
+input.focused + div {
+    border-bottom: 3px solid black;
+    transform: scaleX(1);
+}
+
 .time-colon {
     font-size: 50px;
+    margin-top: -12.5px;
 }
 
 #time-inputs {
     display: flex;
     flex-direction: row;
+    margin-top: -15px;
 }
 
 .time-input {
-    margin-top: 6px;
     caret-color: transparent;
 }
 
@@ -35,15 +64,30 @@
     width: 70px;
     height: 55px;
     cursor: pointer;
-    color: orangered;
-    border: 3px solid transparent;
+    color: #DA6A00;
 }
 
 .time-input input::placeholder {
-    color: black;  
+    color: #C8D2D1;
+    transition: 1s;  
 }
 
-.time-input-label {
-    margin-top: 10px;
-    font-size: 15px;
+.time-input input.focused::placeholder {
+    color: #DA6A00;
+}
+
+.submit-form-button {
+    background-color: #C8D2D1;
+    color: white;
+    margin: 15px 0 30px 0;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 10px;
+    transition: 0.5s;
+}
+
+.submit-form-button:hover, .submit-form-button:focus {
+    background-color: #68904D;
 }

@@ -16,9 +16,5 @@
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-}
-
-.close {
-    align-self: flex-end;
-    cursor: pointer;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.75);
 }
