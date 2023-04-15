@@ -1,14 +1,21 @@
+.name {
+    /* This is the title for the task. */
+}
+
 .task {
-    width: 50%;
-    height: 100px;
+    /* width: 50%; */
+    height: 200px;
 
     box-sizing: border-box;
     margin: 0 auto;
-    border: 2px solid black;
+    /* Give the task box a border */
+    border: 3px solid black;
 
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    background-color: #DA6A00;
 }
 
 /* Play/Pause Button */
@@ -29,7 +36,6 @@
     border-style: double;
     border-width: 0 0 0 30px;
 }
-
 
 /* Options Buttons */
 

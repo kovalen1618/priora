@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 
+import './CountdownTimer.css'
+
 export default forwardRef(function CountdownTimer({ startingMinutes, onTimerComplete }, ref ) {
     // Creating initial state with 60 seconds to work from
     const [time, setTime] = useState(startingMinutes * 60);
+
+    function toggleFlipped (e) {
+        e.currentTarget.classList.toggle('flipped');
+    }
 
     const intervalRef = useRef();
 
@@ -40,5 +46,64 @@ export default forwardRef(function CountdownTimer({ startingMinutes, onTimerComp
     const countdown = time >= 0 ? `${hours}:${minutes}:${seconds}` : 'Expired';
   
     // Return component to TaskList.js
-    return <div>{countdown}</div>
+    return (
+        <div className='clock-wrapper'>
+            <div className='clock-hours'>
+                <div className='digit digit-left' data-digit-before='0' data-digit-after='1'>
+                    <div className='card' onClick={toggleFlipped}>
+                        {/* Before */}  
+                        <div className='card-face card-face-front'>0</div>
+                        <div className='card-face card-face-back'>1</div>
+                        {/* After */}
+                    </div>
+                </div>
+                <div className='digit digit-right' data-digit-before='0' data-digit-after='1'>
+                    <div className='card' onClick={toggleFlipped}>
+                        {/* Before */}  
+                        <div className='card-face card-face-front'>0</div>
+                        <div className='card-face card-face-back'>1</div>
+                        {/* After */}
+                    </div>
+                </div>
+            </div>
+            <div className='colon'>:</div>
+            <div className='clock-minutes'>
+                <div className='digit digit-left' data-digit-before='0' data-digit-after='1'>
+                    <div className='card' onClick={toggleFlipped}>
+                        {/* Before */}  
+                        <div className='card-face card-face-front'>0</div>
+                        <div className='card-face card-face-back'>1</div>
+                        {/* After */}
+                    </div>
+                </div>
+                <div className='digit digit-right' data-digit-before='0' data-digit-after='1'>
+                    <div className='card' onClick={toggleFlipped}>
+                        {/* Before */}  
+                        <div className='card-face card-face-front'>0</div>
+                        <div className='card-face card-face-back'>1</div>
+                        {/* After */}
+                    </div>
+                </div>
+            </div>
+            <div className='colon'>:</div>
+            <div className='clock-seconds'>
+                <div className='digit digit-left' data-digit-before='0' data-digit-after='1'>
+                    <div className='card' onClick={toggleFlipped}>
+                        {/* Before */}  
+                        <div className='card-face card-face-front'>0</div>
+                        <div className='card-face card-face-back'>1</div>
+                        {/* After */}
+                    </div>
+                </div>
+                <div className='digit digit-right' data-digit-before='0' data-digit-after='1'>
+                    <div className='card' onClick={toggleFlipped}>
+                        {/* Before */}  
+                        <div className='card-face card-face-front'>0</div>
+                        <div className='card-face card-face-back'>1</div>
+                        {/* After */}
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 })
