@@ -60,7 +60,7 @@ export default function TaskList({ tasks }) {
         currentTaskState.countdownRef.current.pause();
         currentTaskState.isRunning = false;
       }
-
+      
       taskState.countdownRef.current.play();
       taskState.isRunning = true;
       setCurrentTaskId(taskId);
