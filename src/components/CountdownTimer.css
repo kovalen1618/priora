@@ -64,12 +64,6 @@
     }
 }
 
-.container {
-    display: flex;
-    gap: .5em;
-    justify-content: center;
-}
-
 .container-segment {
     display: flex;
     flex-direction: column;

@@ -121,6 +121,7 @@ export default function TaskList({ tasks }) {
             <div className={`play ${taskStates && taskStates[index] && taskStates[index].isRunning ? 'pause' : ''}`} onClick={() => handlePlayPause(task.id)}></div>
             {/* Timer */}
             <CountdownTimer
+              taskId = {task.id}
               startingMinutes={task.time}
               // Function is executued when the timer is finished
               onTimerComplete={() => {

@@ -1,19 +1,12 @@
-import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
+import React, { useState, useEffect, useMemo, useRef, useImperativeHandle, forwardRef } from 'react'
 
 import './CountdownTimer.css'
 
-export default forwardRef(function CountdownTimer({ startingMinutes, onTimerComplete }, ref ) {
+export default forwardRef(function CountdownTimer({ taskId, startingMinutes, onTimerComplete }, ref ) {
     // Creating initial state with 60 seconds to work from
     const [time, setTime] = useState(startingMinutes * 60);
-    const [digits, setDigits] = useState({
-        hoursTens: 0,
-        hoursOnes: 0,
-        minutesTens: 0,
-        minutesOnes: 0,
-        secondsTens: 0,
-        secondsOnes: 0
-    });
-
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [isReset, setIsReset] = useState(false);
     const intervalRef = useRef();
 
     useEffect(() => {
@@ -25,53 +18,64 @@ export default forwardRef(function CountdownTimer({ startingMinutes, onTimerComp
 
     useImperativeHandle(ref, () => ({
         play: () => {
+            clearInterval(intervalRef.current);
+            setTime(time - 1)
             if (time > 0) {
                 intervalRef.current = setInterval(() => {
                     setTime(time => time - 1);
                 }, 1000);
+                setIsPlaying(true);
             } else {
                 setTime(startingMinutes * 60);
                 intervalRef.current = setInterval(() => {
                     setTime(time => time - 1);
                 }, 1000);
+                setIsPlaying(true);
             }
         },
-        pause: () => clearInterval(intervalRef.current),
-        reset: () => setTime(startingMinutes * 60)
-    }));     
+        pause: () => {
+            clearInterval(intervalRef.current)
+            setIsPlaying(false);
+        },
+        reset: () => {
+            setTime(startingMinutes * 60)
+            setIsReset(true);
+            setIsPlaying(false);
+        }
+    })); 
 
     useEffect(() => {
         if (time) {
             setTime(parseInt(time));
         }
-
-        flipCards(time);
     }, [time])
 
-    const flipCards = (time) => {
+    const digits = useMemo(() => {
         const hours = Math.floor(time / 3600);
         const minutes = Math.floor((time % 3600) / 60);
         const seconds = time % 60;
 
-        setDigits({
+        return {
             hoursTens: Math.floor(hours / 10),
             hoursOnes: hours % 10,
             minutesTens: Math.floor(minutes / 10),
             minutesOnes: minutes % 10,
             secondsTens: Math.floor(seconds / 10),
             secondsOnes: seconds % 10
-        });
+        };
+    }, [time]);
 
-        console.log(seconds)
-        console.log(digits.secondsOnes)
-
-        flip(document.querySelector('[data-hours-tens]'), digits.hoursTens);
-        flip(document.querySelector('[data-hours-ones]'), digits.hoursOnes);
-        flip(document.querySelector('[data-minutes-tens]'), digits.minutesTens);
-        flip(document.querySelector('[data-minutes-ones]'), digits.minutesOnes);
-        flip(document.querySelector('[data-seconds-tens]'), digits.secondsTens);
-        flip(document.querySelector('[data-seconds-ones]'), digits.secondsOnes);
-    }
+    useEffect(() => {
+        if (isPlaying || isReset) {
+            const flipCardContainer = document.querySelector(`.container-${taskId}`);
+            flip(flipCardContainer.querySelector('[data-hours-tens]'), digits.hoursTens);
+            flip(flipCardContainer.querySelector('[data-hours-ones]'), digits.hoursOnes);
+            flip(flipCardContainer.querySelector('[data-minutes-tens]'), digits.minutesTens);
+            flip(flipCardContainer.querySelector('[data-minutes-ones]'), digits.minutesOnes);
+            flip(flipCardContainer.querySelector('[data-seconds-tens]'), digits.secondsTens);
+            flip(flipCardContainer.querySelector('[data-seconds-ones]'), digits.secondsOnes);
+        }
+    }, [digits, isPlaying, isReset]);
 
 
     const flip = (flipCard, newNumber) => {
@@ -110,46 +114,46 @@ export default forwardRef(function CountdownTimer({ startingMinutes, onTimerComp
   
     // Return component to TaskList.js
     return (
-        <div className="container">
-        <div className="container-segment">
-            <div className="segment-title">Hours</div>
-            <div className="segment">
-                <div className="flip-card" data-hours-tens>
-                    <div className="top">0</div>
-                    <div className="bottom">0</div>
-                </div>
-                <div className="flip-card" data-hours-ones>
-                    <div className="top">0</div>
-                    <div className="bottom">0</div>
-                </div>
-            </div>
-        </div>
-        <div className="container-segment">
-            <div className="segment-title">Minutes</div>
-            <div className="segment">
-                <div className="flip-card" data-minutes-tens>
-                    <div className="top">0</div>
-                    <div className="bottom">0</div>
-                </div>
-                <div className="flip-card" data-minutes-ones>
-                    <div className="top">0</div>
-                    <div className="bottom">0</div>
-                </div>
-            </div>
-        </div>
-        <div className="container-segment">
-            <div className="segment-title">Seconds</div>
+        <div className={`container-${taskId}`} style={{ display: 'flex', gap: '.5em', justifyContent: 'center'}} >
+            <div className="container-segment">
+                <div className="segment-title">Hours</div>
                 <div className="segment">
-                <div className="flip-card" data-seconds-tens>
-                    <div className="top">0</div>
-                    <div className="bottom">0</div>
-                </div>
-                <div className="flip-card" data-seconds-ones>
-                    <div className="top">0</div>
-                    <div className="bottom">0</div>
+                    <div className="flip-card" data-hours-tens>
+                        <div className="top">{Math.floor((startingMinutes * 60) / 36000)}</div>
+                        <div className="bottom">{Math.floor((startingMinutes * 60) / 36000)}</div>
+                    </div>
+                    <div className="flip-card" data-hours-ones>
+                        <div className="top">{Math.floor(((startingMinutes * 60) % 36000) / 3600)}</div>
+                        <div className="bottom">{Math.floor(((startingMinutes * 60) % 36000) / 3600)}</div>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div className="container-segment">
+                <div className="segment-title">Minutes</div>
+                <div className="segment">
+                    <div className="flip-card" data-minutes-tens>
+                        <div className="top">{Math.floor(((startingMinutes * 60) % 3600) / 600)}</div>
+                        <div className="bottom">{Math.floor(((startingMinutes * 60) % 3600) / 600)}</div>
+                    </div>
+                    <div className="flip-card" data-minutes-ones>
+                        <div className="top">{Math.floor(((startingMinutes * 60) % 600) / 60)}</div>
+                        <div className="bottom">{Math.floor(((startingMinutes * 60) % 600) / 60)}</div>
+                    </div>
+                </div>
+            </div>
+            <div className="container-segment">
+                <div className="segment-title">Seconds</div>
+                    <div className="segment">
+                    <div className="flip-card" data-seconds-tens>
+                        <div className="top">{Math.floor(((startingMinutes * 60) % 60) / 10)}</div>
+                        <div className="bottom">{Math.floor(((startingMinutes * 60) % 60) / 10)}</div>
+                    </div>
+                    <div className="flip-card" data-seconds-ones>
+                        <div className="top">{Math.floor((startingMinutes * 60) % 10)}</div>
+                        <div className="bottom">{Math.floor((startingMinutes * 60) % 10)}</div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 })
