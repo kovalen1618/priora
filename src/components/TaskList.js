@@ -120,18 +120,20 @@ export default function TaskList({ tasks }) {
             {/* Pause/Play */} {/* Ensures that taskStates[index] exists before trying to access its isRunning property */}
             <div className={`play ${taskStates && taskStates[index] && taskStates[index].isRunning ? 'pause' : ''}`} onClick={() => handlePlayPause(task.id)}></div>
             {/* Timer */}
-            <CountdownTimer
-              taskId = {task.id}
-              startingMinutes={task.time}
-              // Function is executued when the timer is finished
-              onTimerComplete={() => {
-                const newTaskStates = [...taskStates];
-                newTaskStates[index].isRunning = false;
-                setTaskStates(newTaskStates);
-              }}
-              /* Ensures that taskStates[index] exists before trying to access its countdownRef property */
-              ref={taskStates && taskStates[index] && taskStates[index].countdownRef}
-            />
+            <div className="timer">
+              <CountdownTimer 
+                taskId = {task.id}
+                startingMinutes={task.time}
+                // Function is executued when the timer is finished
+                onTimerComplete={() => {
+                  const newTaskStates = [...taskStates];
+                  newTaskStates[index].isRunning = false;
+                  setTaskStates(newTaskStates);
+                }}
+                /* Ensures that taskStates[index] exists before trying to access its countdownRef property */
+                ref={taskStates && taskStates[index] && taskStates[index].countdownRef}
+              />
+            </div>
             <div className="options">
               {/* Reset Timer Button */}
               <img

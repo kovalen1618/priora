@@ -87,9 +87,12 @@ export default forwardRef(function CountdownTimer({ taskId, startingMinutes, onT
 
         const topFlip = document.createElement('div');
         topFlip.classList.add('top-flip');
-
+        
         const bottomFlip = document.createElement('div');
         bottomFlip.classList.add('bottom-flip');
+
+        topFlip.style = 'color: #DA6A00;'
+        bottomFlip.style = 'color: #DA6A00;'
 
         topHalf.textContent = startNumber;
         bottomHalf.textContent = startNumber;
@@ -116,43 +119,43 @@ export default forwardRef(function CountdownTimer({ taskId, startingMinutes, onT
     return (
         <div className={`container-${taskId}`} style={{ display: 'flex', gap: '.5em', justifyContent: 'center'}} >
             <div className="container-segment">
-                <div className="segment-title">Hours</div>
                 <div className="segment">
                     <div className="flip-card" data-hours-tens>
-                        <div className="top">{Math.floor((startingMinutes * 60) / 36000)}</div>
-                        <div className="bottom">{Math.floor((startingMinutes * 60) / 36000)}</div>
+                        <div className="top" id={`${digits.hoursTens > 0 ? 'active' : '' }`}>{Math.floor((startingMinutes * 60) / 36000)}</div>
+                        <div className="bottom" id={`${digits.hoursTens > 0 ? 'active' : '' }`}>{Math.floor((startingMinutes * 60) / 36000)}</div>
                     </div>
                     <div className="flip-card" data-hours-ones>
-                        <div className="top">{Math.floor(((startingMinutes * 60) % 36000) / 3600)}</div>
-                        <div className="bottom">{Math.floor(((startingMinutes * 60) % 36000) / 3600)}</div>
+                        <div className="top" id={`${digits.hoursTens > 0 || digits.hoursOnes > 0 ? 'active' : '' }`}>{Math.floor(((startingMinutes * 60) % 36000) / 3600)}</div>
+                        <div className="bottom" id={`${digits.hoursTens > 0 || digits.hoursOnes > 0 ? 'active' : '' }`}>{Math.floor(((startingMinutes * 60) % 36000) / 3600)}</div>
                     </div>
                 </div>
+                <div className="segment-title">Hours</div>
             </div>
             <div className="container-segment">
-                <div className="segment-title">Minutes</div>
                 <div className="segment">
                     <div className="flip-card" data-minutes-tens>
-                        <div className="top">{Math.floor(((startingMinutes * 60) % 3600) / 600)}</div>
-                        <div className="bottom">{Math.floor(((startingMinutes * 60) % 3600) / 600)}</div>
+                        <div className="top" id={`${digits.hoursTens > 0 || digits.hoursOnes > 0 || digits.minutesTens > 0 ? 'active' : '' }`}>{Math.floor(((startingMinutes * 60) % 3600) / 600)}</div>
+                        <div className="bottom" id={`${digits.hoursTens > 0 || digits.hoursOnes > 0 || digits.minutesTens > 0 ? 'active' : '' }`}>{Math.floor(((startingMinutes * 60) % 3600) / 600)}</div>
                     </div>
                     <div className="flip-card" data-minutes-ones>
-                        <div className="top">{Math.floor(((startingMinutes * 60) % 600) / 60)}</div>
-                        <div className="bottom">{Math.floor(((startingMinutes * 60) % 600) / 60)}</div>
+                        <div className="top" id={`${digits.hoursTens > 0 || digits.hoursOnes > 0 || digits.minutesTens > 0 || digits.minutesOnes > 0 ? 'active' : '' }`}>{Math.floor(((startingMinutes * 60) % 600) / 60)}</div>
+                        <div className="bottom" id={`${digits.hoursTens > 0 || digits.hoursOnes > 0 || digits.minutesTens > 0 || digits.minutesOnes > 0 ? 'active' : '' }`}>{Math.floor(((startingMinutes * 60) % 600) / 60)}</div>
                     </div>
                 </div>
+                <div className="segment-title">Minutes</div>
             </div>
             <div className="container-segment">
-                <div className="segment-title">Seconds</div>
                     <div className="segment">
                     <div className="flip-card" data-seconds-tens>
-                        <div className="top">{Math.floor(((startingMinutes * 60) % 60) / 10)}</div>
-                        <div className="bottom">{Math.floor(((startingMinutes * 60) % 60) / 10)}</div>
+                        <div className="top" id={`${digits.hoursTens > 0 || digits.hoursOnes > 0 || digits.minutesTens > 0 || digits.minutesOnes > 0 || digits.secondsTens > 0 ? 'active' : '' }`}>{Math.floor(((startingMinutes * 60) % 60) / 10)}</div>
+                        <div className="bottom" id={`${digits.hoursTens > 0 || digits.hoursOnes > 0 || digits.minutesTens > 0 || digits.minutesOnes > 0 || digits.secondsTens > 0 ? 'active' : '' }`}>{Math.floor(((startingMinutes * 60) % 60) / 10)}</div>
                     </div>
                     <div className="flip-card" data-seconds-ones>
-                        <div className="top">{Math.floor((startingMinutes * 60) % 10)}</div>
-                        <div className="bottom">{Math.floor((startingMinutes * 60) % 10)}</div>
+                        <div className="top" id={`${digits.hoursTens > 0 || digits.hoursOnes > 0 || digits.minutesTens > 0 || digits.minutesOnes > 0 || digits.secondsTens > 0 || digits.secondsOnes > 0 ? 'active' : '' }`}>{Math.floor((startingMinutes * 60) % 10)}</div>
+                        <div className="bottom" id={`${digits.hoursTens > 0 || digits.hoursOnes > 0 || digits.minutesTens > 0 || digits.minutesOnes > 0 || digits.secondsTens > 0 || digits.secondsOnes > 0 ? 'active' : '' }`}>{Math.floor((startingMinutes * 60) % 10)}</div>
                     </div>
                 </div>
+                <div className="segment-title">Seconds</div>
             </div>
         </div>
     )

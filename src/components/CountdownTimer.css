@@ -2,7 +2,6 @@
     position: relative;
     display: inline-flex;
     flex-direction: column;
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .2);
     border-radius: .1em;
 }
 
@@ -21,15 +20,17 @@
 
 .top,
 .flip-card .top-flip {
-    background-color: #f7f7f7;
+    color: #C8D2D1;
+    background-color: #fff;
     border-top-right-radius: .1em;
     border-top-left-radius: .1em;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .bottom,
 .flip-card .bottom-flip {
-    background-color: white;
+    color: #C8D2D1;
+    background-color: #fff;
     display: flex;
     align-items: flex-end;
     border-bottom-right-radius: .1em;
@@ -64,6 +65,10 @@
     }
 }
 
+#active {
+    color: #DA6A00
+}
+
 .container-segment {
     display: flex;
     flex-direction: column;
@@ -78,4 +83,5 @@
 
 .segment-title {
     font-size: 1rem;
+    color: #C8D2D1;
 }
