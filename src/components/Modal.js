@@ -31,11 +31,14 @@ function Modal() {
 
     return (
         <div>
-            <img 
-                src={addTaskIcon} 
-                onClick={() => {setShowModal(!showModal)}}
-                alt="Add Task" 
-            />
+            <div className='add-task-icon-container' onClick={() => {setShowModal(!showModal)}}>
+                <h2>Add Task</h2>
+                <img 
+                    src={addTaskIcon} 
+                    alt="Add Task" 
+                />
+            </div>
+            
             
             {showModal && (
                 <div className='modal'>
