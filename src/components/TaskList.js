@@ -60,7 +60,7 @@ export default function TaskList({ tasks }) {
         currentTaskState.countdownRef.current.pause();
         currentTaskState.isRunning = false;
       }
-
+      
       taskState.countdownRef.current.play();
       taskState.isRunning = true;
       setCurrentTaskId(taskId);
@@ -117,20 +117,25 @@ export default function TaskList({ tasks }) {
         <div className="task-container" key={task.id}>
           <h3 className="name">{task.name}</h3>
           <div className="task">
-            {/* Pause/Play */} {/* Ensures that taskStates[index] exists before trying to access its isRunning property */}
-            <div className={`play ${taskStates && taskStates[index] && taskStates[index].isRunning ? 'pause' : ''}`} onClick={() => handlePlayPause(task.id)}></div>
+            <div className="play-button-container">
+              {/* Pause/Play */} {/* Ensures that taskStates[index] exists before trying to access its isRunning property */}
+              <div className={`play ${taskStates && taskStates[index] && taskStates[index].isRunning ? 'pause' : ''}`} onClick={() => handlePlayPause(task.id)}></div>
+            </div>
             {/* Timer */}
-            <CountdownTimer
-              startingMinutes={task.time}
-              // Function is executued when the timer is finished
-              onTimerComplete={() => {
-                const newTaskStates = [...taskStates];
-                newTaskStates[index].isRunning = false;
-                setTaskStates(newTaskStates);
-              }}
-              /* Ensures that taskStates[index] exists before trying to access its countdownRef property */
-              ref={taskStates && taskStates[index] && taskStates[index].countdownRef}
-            />
+            <div className="timer">
+              <CountdownTimer 
+                taskId = {task.id}
+                startingMinutes={task.time}
+                // Function is executued when the timer is finished
+                onTimerComplete={() => {
+                  const newTaskStates = [...taskStates];
+                  newTaskStates[index].isRunning = false;
+                  setTaskStates(newTaskStates);
+                }}
+                /* Ensures that taskStates[index] exists before trying to access its countdownRef property */
+                ref={taskStates && taskStates[index] && taskStates[index].countdownRef}
+              />
+            </div>
             <div className="options">
               {/* Reset Timer Button */}
               <img

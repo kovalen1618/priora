@@ -43,6 +43,7 @@ input.focused + div {
 .time-colon {
     font-size: 50px;
     margin-top: -12.5px;
+    color: #C8D2D1;
 }
 
 #time-inputs {

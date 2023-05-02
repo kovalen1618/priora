@@ -1,20 +1,44 @@
+.task-container {
+    /* Align items within task container without using display: flex*/
+    
+}
+
+.name {
+    background-color: #C8D2D1;
+    display: inline-block;
+
+    border: 5px solid black;
+    border-bottom: none;
+
+    padding: 3px 20px;
+    margin: 30px auto 0 auto;
+}
+
+
 .task {
-    width: 50%;
-    height: 100px;
+    max-width: 800px;
+    height: 160px;
 
     box-sizing: border-box;
     margin: 0 auto;
-    border: 2px solid black;
+    
+    /* Give the task box a border */
+    border: 5px solid black;
+    border-radius: 20px;
 
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    background-color: #C8D2D1;
 }
+
+
 
 /* Play/Pause Button */
 .play {
     box-sizing: border-box;
-    height: 30px;
+    height: 40px;
 
     border-color: transparent transparent transparent #000000;
     transition: 100ms all ease;
@@ -22,14 +46,24 @@
     cursor: pointer;
     
     border-style: solid;
-    border-width: 15px 0px 15px 30px;
+    border-width: 20px 0px 20px 40px;
+
+    position: relative;
+    left: 20px;
 }
 
 .play.pause {
     border-style: double;
-    border-width: 0 0 0 30px;
+    border-width: 0 0 0 40px;
 }
 
+.timer {
+    border: 5px solid black;
+    padding: 10px;
+    background-color: #000000;
+    position: relative;
+    right: 5px;
+}
 
 /* Options Buttons */
 
@@ -40,7 +74,9 @@
 }
 
 .options > img {
-    width: 20px;
+    width: 30px;
+    position: relative;
+    right: 25px;
 }
 
 .reset {

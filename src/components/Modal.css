@@ -18,3 +18,23 @@
     border-radius: 10px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.75);
 }
+
+.add-task-icon-container {
+    max-width: 790px;
+    height: 145px;
+    margin: 40px auto;
+    border-radius: 20px;
+
+    border: 5px dashed #C8D2D1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.add-task-icon-container > h2 {
+    color: #C8D2D1;
+}
+
