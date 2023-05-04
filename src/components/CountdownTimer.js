@@ -4,7 +4,7 @@ import './CountdownTimer.css'
 
 export default forwardRef(function CountdownTimer({ taskId, startingMinutes, onTimerComplete }, ref ) {
     // Creating initial state with 60 seconds to work from
-    const initialTime = parseInt(localStorage.getItem('time')) || startingMinutes * 60
+    const initialTime = parseInt(localStorage.getItem(`time_${taskId}`)) || startingMinutes * 60
     const [time, setTime] = useState(initialTime);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isReset, setIsReset] = useState(false);
