@@ -99,6 +99,7 @@ export default function TaskList({ tasks }) {
     }
 
     projectFirestore.collection('tasks').doc(id).delete();
+    localStorage.removeItem(`time_${id}`, id);
   }
 
   // TODO: Look into having edits only being sent to the Firestore once a user closes out of the application so that not too many write requests are made
