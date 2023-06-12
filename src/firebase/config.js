@@ -3,6 +3,7 @@ import firebase from 'firebase/compat/app';
 
 // Firebase Services
 import 'firebase/compat/firestore';
+import 'firebase/compat/auth';
 
 // Config
 const firebaseConfig = {
@@ -19,8 +20,10 @@ firebase.initializeApp(firebaseConfig);
 
 // Firebase Services Initialization
 const projectFirestore = firebase.firestore();
+const projectAuth = firebase.auth();
 
 // Services Export
 export {
-    projectFirestore
+    projectFirestore,
+    projectAuth
 }

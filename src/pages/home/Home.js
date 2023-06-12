@@ -25,7 +25,7 @@ function Home() {
         if (snapshot.empty) {
             setError('No tasks to load');
             setIsPending(false);
-            // Displays empty page when all data from Firestore Database is gone
+            // Displays empty page when all data from Firestore is empty
             setData([]);
         } else {
             let results = [];
