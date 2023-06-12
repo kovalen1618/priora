@@ -155,7 +155,6 @@ function Create({ closeModal }) {
                             return;
                         }
                         setTime(totalTime);
-                        console.log(totalTime)
                     }}
                 >Add Task</button>
 

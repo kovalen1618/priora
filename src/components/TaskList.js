@@ -28,10 +28,12 @@ export default function TaskList({ tasks }) {
   const [currentTaskId, setCurrentTaskId] = useState(null);
 
   // Reflects the same data within the Firestore Database
+  // Manages the correct state when a user interacts with a task's play/pause button
   useEffect(() => {
-    setTaskStates(
+    setTaskStates(prevTaskStates =>
       tasks.map((task) => {
-        const taskState = taskStates.find((state) => state.id === task.id);
+        const taskState = prevTaskStates.find((state) => state.id === task.id);
+        // Update the chosen task with the new states or leave at default values
         return taskState ? taskState : { isRunning: false, id: task.id, countdownRef: createRef() }
       })
     )
@@ -89,15 +91,17 @@ export default function TaskList({ tasks }) {
   }
 
   const handleDelete = (id) => {
+    // Conditional checks if task is being played so that it can be stopped before being deleted to mitigate errors
     if (id === currentTaskId) {
       const newTaskStates = [...taskStates];
       const taskState = newTaskStates.find((task) => task.id === id);
       taskState.countdownRef.current.pause();
       taskState.isRunning = false;
-      setCurrentTaskId(null);
+      setCurrentTaskId(null);   
       setTaskStates(newTaskStates);
     }
 
+    // Deletes task from the database
     projectFirestore.collection('tasks').doc(id).delete();
     localStorage.removeItem(`time_${id}`, id);
   }

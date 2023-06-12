@@ -25,13 +25,16 @@ function Home() {
         if (snapshot.empty) {
             setError('No tasks to load');
             setIsPending(false);
+            // Displays empty page when all data from Firestore Database is gone
+            setData([]);
         } else {
             let results = [];
             snapshot.docs.forEach(doc => {
                 results.push({ id: doc.id, ...doc.data() })
             })
 
-            setData(results);
+            setData(results)
+            
             setIsPending(false);
         }
         }, (err) => {
@@ -46,7 +49,7 @@ function Home() {
 
     return (
         <div className='home'>
-            {error && <p className='error'>{error}</p>}
+            {/* {console.log(error)} */}
             {isPending && <p className='loading'>Loading...</p>}
             {data && <TaskList tasks={data} />}
             <Modal />
