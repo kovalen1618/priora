@@ -6,6 +6,7 @@ import { projectFirestore } from '../../firebase/config';
 
 // Styles
 import './Create.css';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 function Create({ closeModal }) {
     const [name, setName] = useState('');
@@ -14,6 +15,8 @@ function Create({ closeModal }) {
     const [hours, setHours] = useState('');
     const [minutes, setMinutes] = useState('');
     const [seconds, setSeconds] = useState('');
+
+    const { user } = useAuthContext();
 
     const handleInputFocus = (e) => {
         const inputs = document.querySelectorAll(".input");
@@ -33,7 +36,7 @@ function Create({ closeModal }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const doc = { name, time };
+        const doc = { name, time, uid: user.uid };
 
         try {
             await projectFirestore.collection('tasks').add(doc);
