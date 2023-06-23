@@ -11,7 +11,7 @@ import resetTimeIcon from '../assets/time-reset.svg';
 import pencilIcon from '../assets/pencil-edit.svg';
 
 // Styles
-import './TaskList.css';
+import styles from './TaskList.module.css';
 
 export default function TaskList({ tasks }) {
   // Keep track of each task and if their CountdownTimer is running
@@ -119,15 +119,15 @@ export default function TaskList({ tasks }) {
     <div>
       {/* Index is created through the .map method and represents the task being processed */}
       {tasks.map((task, index) => (
-        <div className="task-container" key={task.id}>
-          <h3 className="name">{task.name}</h3>
-          <div className="task">
-            <div className="play-button-container">
+        <div className={styles["task-container"]} key={task.id}>
+          <h3 className={styles.name}>{task.name}</h3>
+          <div className={styles.task}>
+            <div className={styles["play-button-container"]}>
               {/* Pause/Play */} {/* Ensures that taskStates[index] exists before trying to access its isRunning property */}
-              <div className={`play ${taskStates && taskStates[index] && taskStates[index].isRunning ? 'pause' : ''}`} onClick={() => handlePlayPause(task.id)}></div>
+              <div className={`${styles.play} ${taskStates && taskStates[index] && taskStates[index].isRunning ? styles.pause : ''}`} onClick={() => handlePlayPause(task.id)}></div>
             </div>
             {/* Timer */}
-            <div className="timer">
+            <div className={styles.timer}>
               <CountdownTimer 
                 taskId = {task.id}
                 startingMinutes={task.time}
@@ -141,24 +141,24 @@ export default function TaskList({ tasks }) {
                 ref={taskStates && taskStates[index] && taskStates[index].countdownRef}
               />
             </div>
-            <div className="options">
+            <div className={styles.options}>
               {/* Reset Timer Button */}
               <img
-                className='reset'
+                className={styles.reset}
                 src={resetTimeIcon}
                 onClick={() => handleReset(index)}
                 alt='Reset Timer Icon'
               />
               {/* Edit Task Button */}
               <img
-                className='edit'
+                className={styles.edit}
                 src={pencilIcon}
                 onClick={() => handleEdit(task.id)}
                 alt='Edit Task Icon'
               />
               {/* Delete Task Button */}
               <img
-                className='delete'
+                className={styles.delete}
                 src={trashCanIcon}
                 onClick={() => handleDelete(task.id)}
                 alt='Delete Task Icon'
