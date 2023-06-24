@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef, useImperativeHandle, forwardRef } from 'react'
 
 import './CountdownTimer.css'
+import { projectFirestore } from '../firebase/config';
 
 export default forwardRef(function CountdownTimer({ taskId, startingMinutes, onTimerComplete }, ref ) {
     // Creating initial state with 60 seconds to work from
@@ -13,6 +14,30 @@ export default forwardRef(function CountdownTimer({ taskId, startingMinutes, onT
     useEffect(() => {
         localStorage.setItem(`time_${taskId}`, time);
     }, [taskId, time]);
+
+    // Update Firestore Database after page is refreshed or exited with localStorage time_ value
+    useEffect(() => {
+        window.addEventListener('beforeunload', handleUnload)
+
+        return () => {
+            window.removeEventListener('beforeunload', handleUnload)
+        }
+    }, [])
+
+    const handleUnload = (() => {
+        const localTimeValue = localStorage.getItem(`time_${taskId}`);
+
+        if (localTimeValue > 0) {
+            projectFirestore.collection('tasks').doc(taskId).update({
+                time: localTimeValue
+            })
+        } else {
+            projectFirestore.collection('tasks').doc(taskId).update({
+                time: startingMinutes
+            })
+        }
+
+    })  
 
     useEffect(() => {
         if (time === 0) {
@@ -48,12 +73,6 @@ export default forwardRef(function CountdownTimer({ taskId, startingMinutes, onT
             setIsPlaying(false);
         }
     })); 
-
-    // useEffect(() => {
-    //     if (time) {
-    //         setTime(parseInt(time));
-    //     }
-    // }, [time])
 
     const digits = useMemo(() => {
         const hours = Math.floor(time / 3600);

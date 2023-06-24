@@ -106,13 +106,12 @@ export default function TaskList({ tasks }) {
     localStorage.removeItem(`time_${id}`, id);
   }
 
-  // TODO: Look into having edits only being sent to the Firestore once a user closes out of the application so that not too many write requests are made
-  // TODO: Maybe have a way of it being temporarily stored in localstorage and then once the user is done it will update the Firestore
-  const handleEdit = (id) => {
-    projectFirestore.collection('tasks').doc(id).update({
-      name: 'Something else'
-    });
-  }
+  // TODO: Once figuring out updating, rebuild and deploy with the new code
+  // const handleEdit = (id) => {
+  //   projectFirestore.collection('tasks').doc(id).update({
+  //     name: 'Something else'
+  //   });
+  // }
 
 
   return (
@@ -150,12 +149,12 @@ export default function TaskList({ tasks }) {
                 alt='Reset Timer Icon'
               />
               {/* Edit Task Button */}
-              <img
+              {/* <img
                 className={styles.edit}
                 src={pencilIcon}
                 onClick={() => handleEdit(task.id)}
                 alt='Edit Task Icon'
-              />
+              /> */}
               {/* Delete Task Button */}
               <img
                 className={styles.delete}

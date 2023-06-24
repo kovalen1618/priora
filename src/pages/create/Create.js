@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { projectFirestore } from '../../firebase/config';
 
 // Styles
-import styles from './Create.module.css';
+import './Create.css';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 function Create({ closeModal }) {
@@ -50,13 +50,13 @@ function Create({ closeModal }) {
 
 
     return (
-        <div className={styles.create}>
-            <form onSubmit={handleSubmit} className={styles['create-task-form']}>
+        <div className='create'>
+            <form onSubmit={handleSubmit} className={'create-task-form'}>
 
-                <label id={styles.name}>
+                <label id='name'>
                     <input 
-                        className={styles.input}
-                        id={styles['name-input']}
+                        className='input'
+                        id='name-input'
                         type='text'
                         placeholder='Task Name'
                         onChange={(e) => setName(e.target.value)}
@@ -71,12 +71,12 @@ function Create({ closeModal }) {
                     <div></div>
                 </label>
 
-                <label id={styles.clock}>
-                    <div id={styles['time-inputs']}>
-                        <div className={styles.time}>
-                            <div className={styles['time-input']}>
+                <label id='clock'>
+                    <div id='time-inputs'>
+                        <div className='time'>
+                            <div className='time-input'>
                                 <input 
-                                    className={styles.input}
+                                    className='input'
                                     type='text'
                                     placeholder='00'
                                     onChange={(e) => {
@@ -93,13 +93,13 @@ function Create({ closeModal }) {
                                 />
                                 <div></div>
                             </div>
-                            <span className={styles['time-input-label']}>Hours</span>
+                            <span className='time-input-label'>Hours</span>
                         </div>
-                        <span className={styles['time-colon']}>:</span>
-                        <div className={styles.time}>
-                            <div className={styles['time-input']}>
+                        <span className='time-colon'>:</span>
+                        <div className='time'>
+                            <div className='time-input'>
                                 <input 
-                                    className={styles.input}
+                                    className='input'
                                     type='text'
                                     placeholder='00'
                                     maxLength={3}
@@ -117,13 +117,13 @@ function Create({ closeModal }) {
                                 />
                                 <div></div>
                             </div>
-                            <span className={styles['time-input-label']}>Minutes</span>
+                            <span className='time-input-label'>Minutes</span>
                         </div>
-                        <span className={styles['time-colon']}>:</span>
-                        <div className={styles.time}>
-                            <div className={styles['time-input']}>
+                        <span className='time-colon'>:</span>
+                        <div className='time'>
+                            <div className='time-input'>
                                 <input 
-                                    className={styles.input}
+                                    className='input'
                                     type='text'
                                     placeholder='00'
                                     maxLength={3}
@@ -141,7 +141,7 @@ function Create({ closeModal }) {
                                 />
                                 <div></div>
                             </div>
-                            <span className={styles['time-input-label']}>Seconds</span>
+                            <span className='time-input-label'>Seconds</span>
                         </div>
                     </div>
                 </label>
@@ -149,7 +149,7 @@ function Create({ closeModal }) {
 
                 <button 
                     disabled={isSubmitting} 
-                    className={styles['submit-form-button']} 
+                    className='submit-form-button'
                     onClick={(e) => { 
                         const totalTime = ((seconds / 60) + minutes + (hours * 60))
                         if (totalTime === '' || totalTime <= 0) {
