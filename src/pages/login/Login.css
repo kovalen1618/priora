@@ -19,7 +19,7 @@
     flex-direction: column;
 }
 
-.signup-input {
+.login-input {
     margin: 0 0 10px 0;
     border: none;
     outline: none;
@@ -31,22 +31,22 @@
     margin: 20px 0 0;
 }
 
-.signup-input + div {
+.login-input + div {
     border-bottom: 3px solid transparent;
     transform: scaleX(0);
     transition: 0.5s;
 }
 
-.signup-input.focused + div {
+.login-input.focused + div {
     border-bottom: 3px solid black;
     transform: scaleX(1);
 }
 
-.signup-input::placeholder {
+.login-input::placeholder {
     color: #C8D2D1;
 }
 
-.signup-input.focused::placeholder {
+.login-input.focused::placeholder {
     color: transparent;
 }
 
@@ -72,6 +72,7 @@
     transition: 0.5s;
 }
 
-.form button:hover, .form button:focus {
+.form button:hover,
+.form button:focus {
     background-color: #68904D;
 }

@@ -8,7 +8,7 @@ import { projectFirestore } from '../firebase/config';
 // Assets
 import trashCanIcon from '../assets/trash-can.svg';
 import resetTimeIcon from '../assets/time-reset.svg';
-import pencilIcon from '../assets/pencil-edit.svg';
+// import pencilIcon from '../assets/pencil-edit.svg';
 
 // Styles
 import styles from './TaskList.module.css';
