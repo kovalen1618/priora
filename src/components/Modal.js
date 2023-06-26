@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Create from '../pages/create/Create';
 
 // Styles
-import './Modal.css';
+import styles from './Modal.module.css';
 
 // Assets
 import addTaskIcon from './../assets/add-task-icon.svg';
@@ -30,8 +30,8 @@ function Modal() {
 
 
     return (
-        <div>
-            <div className='add-task-icon-container' onClick={() => {setShowModal(!showModal)}}>
+        <div className={styles['modal-container']}>
+            <div className={styles['add-task-icon-container']} onClick={() => {setShowModal(!showModal)}}>
                 <h2>Add Task</h2>
                 <img 
                     src={addTaskIcon} 
@@ -41,9 +41,8 @@ function Modal() {
             
             
             {showModal && (
-                <div className='modal'>
-                    <div className='modal-content' ref={modalRef}>
-                        {/* <span className='modal-close' onClick={() => {setShowModal(!showModal)}}>&times;</span> */}
+                <div className={styles.modal}>
+                    <div className={styles['modal-content']} ref={modalRef}>
                         <Create closeModal={() => {setShowModal(!showModal)}} />
                     </div>
                 </div>

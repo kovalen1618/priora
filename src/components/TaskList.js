@@ -2,16 +2,16 @@
 import React, { createRef, useEffect, useState } from 'react';
 import CountdownTimer from './CountdownTimer';
 
-// Firebase
-import { projectFirestore } from '../firebase/config';
+// Hooks
+import { useFirestore } from '../hooks/useFirestore';
 
 // Assets
 import trashCanIcon from '../assets/trash-can.svg';
 import resetTimeIcon from '../assets/time-reset.svg';
-import pencilIcon from '../assets/pencil-edit.svg';
+// import pencilIcon from '../assets/pencil-edit.svg';
 
 // Styles
-import './TaskList.css';
+import styles from './TaskList.module.css';
 
 export default function TaskList({ tasks }) {
   // Keep track of each task and if their CountdownTimer is running
@@ -23,6 +23,8 @@ export default function TaskList({ tasks }) {
       countdownRef: createRef(),
     }))
   );
+
+  const { deleteDocument } = useFirestore('tasks');
 
   // Keep track of the currently playing task's index
   const [currentTaskId, setCurrentTaskId] = useState(null);
@@ -101,33 +103,31 @@ export default function TaskList({ tasks }) {
       setTaskStates(newTaskStates);
     }
 
-    // Deletes task from the database
-    projectFirestore.collection('tasks').doc(id).delete();
+    deleteDocument(id);    
     localStorage.removeItem(`time_${id}`, id);
   }
 
-  // TODO: Look into having edits only being sent to the Firestore once a user closes out of the application so that not too many write requests are made
-  // TODO: Maybe have a way of it being temporarily stored in localstorage and then once the user is done it will update the Firestore
-  const handleEdit = (id) => {
-    projectFirestore.collection('tasks').doc(id).update({
-      name: 'Something else'
-    });
-  }
+  // TODO: Once figuring out updating, rebuild and deploy with the new code
+  // const handleEdit = (id) => {
+  //   projectFirestore.collection('tasks').doc(id).update({
+  //     name: 'Something else'
+  //   });
+  // }
 
 
   return (
     <div>
       {/* Index is created through the .map method and represents the task being processed */}
       {tasks.map((task, index) => (
-        <div className="task-container" key={task.id}>
-          <h3 className="name">{task.name}</h3>
-          <div className="task">
-            <div className="play-button-container">
+        <div className={styles["task-container"]} key={task.id}>
+          <h3 className={styles.name}>{task.name}</h3>
+          <div className={styles.task}>
+            <div className={styles["play-button-container"]}>
               {/* Pause/Play */} {/* Ensures that taskStates[index] exists before trying to access its isRunning property */}
-              <div className={`play ${taskStates && taskStates[index] && taskStates[index].isRunning ? 'pause' : ''}`} onClick={() => handlePlayPause(task.id)}></div>
+              <div className={`${styles.play} ${taskStates && taskStates[index] && taskStates[index].isRunning ? styles.pause : ''}`} onClick={() => handlePlayPause(task.id)}></div>
             </div>
             {/* Timer */}
-            <div className="timer">
+            <div className={styles.timer}>
               <CountdownTimer 
                 taskId = {task.id}
                 startingMinutes={task.time}
@@ -141,24 +141,24 @@ export default function TaskList({ tasks }) {
                 ref={taskStates && taskStates[index] && taskStates[index].countdownRef}
               />
             </div>
-            <div className="options">
+            <div className={styles.options}>
               {/* Reset Timer Button */}
               <img
-                className='reset'
+                className={styles.reset}
                 src={resetTimeIcon}
                 onClick={() => handleReset(index)}
                 alt='Reset Timer Icon'
               />
               {/* Edit Task Button */}
-              <img
-                className='edit'
+              {/* <img
+                className={styles.edit}
                 src={pencilIcon}
                 onClick={() => handleEdit(task.id)}
                 alt='Edit Task Icon'
-              />
+              /> */}
               {/* Delete Task Button */}
               <img
-                className='delete'
+                className={styles.delete}
                 src={trashCanIcon}
                 onClick={() => handleDelete(task.id)}
                 alt='Delete Task Icon'

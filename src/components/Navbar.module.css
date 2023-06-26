@@ -4,6 +4,7 @@
     padding: 3px;
     box-sizing: border-box;
     border-bottom: 5px solid black;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.3);
 }
 
 .navbar ul {
@@ -13,14 +14,26 @@
     margin-right: 30px;
 }
 
-.navbar li {
+.navbar li, .navbar a {
+    color: #C8D2D1;
+    text-decoration: none;
     list-style: none;
     margin: 0 auto;
     font-weight: bold;
     font-size: 1.4rem;
 }
 
-.navbar a {
+.navbar .active, .navbar .name {
+    color: black;
+    font-size: 1.8rem;
+}
+
+.button {
+    background: none;
     color: #C8D2D1;
-    text-decoration: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
 }
