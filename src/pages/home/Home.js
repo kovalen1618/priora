@@ -14,6 +14,7 @@ function Home() {
     const { documents, error } = useCollection(
         'tasks',
         ['uid', '==', user.uid],
+        // orderBy createdAt value with descending order
         ['createdAt', 'desc']
     )
 

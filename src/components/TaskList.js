@@ -2,8 +2,8 @@
 import React, { createRef, useEffect, useState } from 'react';
 import CountdownTimer from './CountdownTimer';
 
-// Firebase
-import { projectFirestore } from '../firebase/config';
+// Hooks
+import { useFirestore } from '../hooks/useFirestore';
 
 // Assets
 import trashCanIcon from '../assets/trash-can.svg';
@@ -23,6 +23,8 @@ export default function TaskList({ tasks }) {
       countdownRef: createRef(),
     }))
   );
+
+  const { deleteDocument } = useFirestore('tasks');
 
   // Keep track of the currently playing task's index
   const [currentTaskId, setCurrentTaskId] = useState(null);
@@ -101,8 +103,7 @@ export default function TaskList({ tasks }) {
       setTaskStates(newTaskStates);
     }
 
-    // Deletes task from the database
-    projectFirestore.collection('tasks').doc(id).delete();
+    deleteDocument(id);    
     localStorage.removeItem(`time_${id}`, id);
   }
 

@@ -30,7 +30,7 @@ function Modal() {
 
 
     return (
-        <div>
+        <div className={styles['modal-container']}>
             <div className={styles['add-task-icon-container']} onClick={() => {setShowModal(!showModal)}}>
                 <h2>Add Task</h2>
                 <img 
