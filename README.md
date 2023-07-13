@@ -2,7 +2,7 @@
 
 ## A Productive Life: One Task Prioritized at a Time
 
-[Priora Website]([url](https://priora.one/))
+[Priora Website](https://priora.one/)
 
 ### Summary
 
